@@ -1,16 +1,17 @@
 import './App.css';
+import 'antd/dist/antd.css';
+import Header from './components/Header';
+import Navbar from "./components/Navbar";
+import Profile from "./components/Profile";
 
 const App = () => {
-  return (
-    <div className="App">
-      <ul>
-          <li>f</li>
-          <li>f</li>
-          <li>s</li>
-          <li>f</li>
-      </ul>
-    </div>
-  );
+    return (
+        <div className='app-wrapper'>
+            <Header />
+            <Navbar />
+            <Profile />
+        </div>
+    )
 }
 
 export default App;
