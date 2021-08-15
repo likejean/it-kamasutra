@@ -1,10 +1,11 @@
 import React from 'react';
+import classes from './Profile.module.css';
 
 function Profile() {
     return (
-        <div className='content'>
+        <div className={classes.content}>
             <div>
-                <img width="950" src="https://bingvsdevportalprodgbl.blob.core.windows.net/demo-images/9b3b22ca-d065-40a9-b5d8-2296beb8c717.jpeg" />
+                <img alt="profile" width="950" src="https://bingvsdevportalprodgbl.blob.core.windows.net/demo-images/9b3b22ca-d065-40a9-b5d8-2296beb8c717.jpeg" />
 
             </div>
 
@@ -16,11 +17,11 @@ function Profile() {
                 <div>
                     New Post
                 </div>
-                <div>
-                    <div>
+                <div className='post'>
+                    <div className={classes.item}>
                         Post 1
                     </div>
-                    <div>
+                    <div className={classes.item}>
                         Post 2
                     </div>
                 </div>
