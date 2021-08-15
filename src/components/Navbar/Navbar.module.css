@@ -1,13 +1,19 @@
 
 .navbar {
     grid-area: n;
-    background-color: orange;
+    background-color: white;
 }
 
-.item {
-    color: white;
+.item a {
+    color: black;
+    font-size: large;
 }
 
-.active {
-    color: orange;
+.item svg {
+    font-size: 1.3em;
+    margin-right: 0.2em
+}
+
+.item a.active {
+    color: cadetblue;
 }
