@@ -2,7 +2,7 @@
 
     display: grid;
     grid-template-columns: 2fr 10fr;
-    background-color: aliceblue;
+
 
 }
 
@@ -10,6 +10,7 @@
 
     padding: 10px;
     height: 1200px;
+    background-color: aliceblue;
 
 }
 

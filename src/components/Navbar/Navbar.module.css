@@ -17,3 +17,21 @@
 .item a.active {
     color: cadetblue;
 }
+
+.friends {
+    position: relative;
+    top: 100px;
+    margin: 0 15px;
+}
+.friends h2 {
+    text-align: center;
+}
+
+.avatars {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.avatar {
+    margin: 0.5em;
+}
