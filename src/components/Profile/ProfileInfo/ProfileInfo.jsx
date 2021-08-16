@@ -1,4 +1,5 @@
 import React from 'react';
+import classes from "./ProfileInfo.module.css";
 
 function ProfileInfo(props) {
     return (
@@ -9,7 +10,7 @@ function ProfileInfo(props) {
 
             </div>
 
-            <div>
+            <div className={classes.descriptionBlock}>
                 Avatar + description
             </div>
         </div>

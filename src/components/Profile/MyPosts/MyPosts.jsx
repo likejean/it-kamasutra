@@ -1,14 +1,20 @@
 import React from 'react';
 import classes from './MyPosts.module.css';
 import Post from './Post/Post';
+import {Button, Input} from 'antd';
+const { TextArea } = Input;
 
-function MyPosts() {
+const MyPosts = () => {
     return (
-        <div>
+        <div className={classes.postsBlock}>
             My Posts
             <div>
-                <textarea></textarea>
-                <button>Add Post</button>
+                <div className={classes.textarea}>
+                    <TextArea showCount maxLength={250}/>
+                </div>
+                <div>
+                    <Button>Add Post</Button>
+                </div>
             </div>
             <div className={classes.posts}>
                 <Post message='Hello1'/>

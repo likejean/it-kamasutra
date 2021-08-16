@@ -2,6 +2,7 @@
 
     display: grid;
     grid-template-columns: 2fr 10fr;
+    background-color: aliceblue;
 
 }
 
@@ -17,8 +18,14 @@
 }
 
 .dialog {
+    padding: 5px
 
+}
 
+.dialog span {
+    color: black;
+    margin: 0 5px;
+    font-size: medium;
 }
 
 .messages {
