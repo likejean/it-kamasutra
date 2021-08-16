@@ -1,13 +1,13 @@
 import React from 'react';
 import classes from "./Post.module.css";
 
-function Post() {
+function Post({message, likes}) {
     return (
         <div className={classes.item}>
             <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRATHfPhx-4ylkLboUOmez2VFF1gfdDtUDQzQ&usqp=CAU' alt="avatar"/>
-            Post 1
+            {message}
             <div>
-                <span>like</span>
+                <span>{likes}</span>
             </div>
         </div>
     );

@@ -1,43 +1,38 @@
 import React from 'react';
 import classes from './Dialogs.module.css';
-import {NavLink} from "react-router-dom";
-import {Menu} from "antd";
-import {UserOutlined} from "@ant-design/icons";
+import DialogItem from "./DialogItem/DialogItem";
+import Message from "./Message/Message";
 
-const DialogUsers = () => {
+let dialogsData = [
+    {id: 1, name: 'Sergey'},
+    {id: 2, name: 'Olesia'},
+    {id: 3, name: 'Sofiya'},
+    {id: 4, name: 'Aleks'},
+    {id: 5, name: 'Sveta'},
+    {id: 6, name: 'Roman'}
+];
 
-    let dialogsData = [
-        {id: 1, name: 'Sergey'},
-        {id: 2, name: 'Olesia'},
-        {id: 3, name: 'Sofiya'},
-        {id: 4, name: 'Aleks'}
-    ]
+let messagesData = [
+    {id: 1, message: 'Hi'},
+    {id: 2, message: 'How is your life going'},
+    {id: 3, message: 'Great! Never been better!'},
+    {id: 4, message: 'That\'s so cool!'},
+    {id: 5, message: 'Really!?'},
+    {id: 6, message: 'Of course!'}
+];
 
-    return (
-        <div className={classes.dialogItems}>
-            {dialogsData.map(dialog => <div key={dialog.id} className={classes.dialog}>
-                <UserOutlined/><NavLink to={`/dialogs/${dialog.id}`}><span>{dialog.name}</span></NavLink>
-            </div>)}
-        </div>
-    )
-}
 
-const Message = ({message}) => {
-    return (
-        <div className={classes.message}>{message}</div>
-    )
-}
 
 const Dialogs = (props) => {
     return (
         <div className={classes.dialogs}>
-            <DialogUsers />
-            <div className={classes.messages}>
-                <Message message="Hello!"/>
-                <Message message="What's up?"/>
-                <Message message="Nothing. What do you want, ha!?"/>
-                <Message message="Don't get mad"/>
+            <div className={classes.dialogItems}>
+                {dialogsData.map(item => <DialogItem key={item.id} {...item} />)}
             </div>
+            <div className={classes.messages}>
+                {messagesData.map(item => <Message key={item.id} {...item} />)}
+            </div>
+
         </div>
     );
 }

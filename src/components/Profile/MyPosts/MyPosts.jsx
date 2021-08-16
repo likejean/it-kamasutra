@@ -4,6 +4,12 @@ import Post from './Post/Post';
 import {Button, Input} from 'antd';
 const { TextArea } = Input;
 
+
+let postsData = [
+    {id: 1, message: 'Great! Samurai 2.0!', likes: 24},
+    {id: 2, message: 'I love it!!!', likes: 45}
+];
+
 const MyPosts = () => {
     return (
         <div className={classes.postsBlock}>
@@ -17,11 +23,7 @@ const MyPosts = () => {
                 </div>
             </div>
             <div className={classes.posts}>
-                <Post message='Hello1'/>
-                <Post />
-                <Post />
-                <Post />
-                <Post />
+                {postsData.map(post => <Post key={post.id} {...post}/>)}
             </div>
         </div>
     );
