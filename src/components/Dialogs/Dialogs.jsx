@@ -4,8 +4,6 @@ import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 
 
-
-
 const Dialogs = (props) => {
     return (
         <div className={classes.dialogs}>

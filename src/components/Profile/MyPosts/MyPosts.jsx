@@ -6,20 +6,23 @@ const { TextArea } = Input;
 
 
 
-const MyPosts = ({posts}) => {
+const MyPosts = (props) => {
+
+    const onChange = e => props.updatePost(e.target.value);
+
     return (
         <div className={classes.postsBlock}>
             My Posts
             <div>
                 <div className={classes.textarea}>
-                    <TextArea showCount maxLength={250}/>
+                    <TextArea onChange={onChange} value={props.newPostText} showCount maxLength={250}/>
                 </div>
                 <div>
-                    <Button>Add Post</Button>
+                    <Button onClick={props.addPost}>Add Post</Button>
                 </div>
             </div>
             <div className={classes.posts}>
-                {posts.map(post => <Post key={post.id} {...post}/>)}
+                {props.posts.map(post => <Post key={post.id} {...post}/>)}
             </div>
         </div>
     );
