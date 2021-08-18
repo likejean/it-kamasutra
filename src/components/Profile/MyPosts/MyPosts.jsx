@@ -2,7 +2,8 @@ import React from 'react';
 import classes from './MyPosts.module.css';
 import Post from './Post/Post';
 import {Button, Input} from 'antd';
-import {addPostCreator, updatePostCreator} from "../../../redux/state";
+import {addPostCreator, updatePostCreator} from "../../../redux/profileReducer";
+
 const { TextArea } = Input;
 
 

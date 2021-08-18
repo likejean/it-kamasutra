@@ -3,7 +3,7 @@ import classes from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {Button} from "antd";
-import {sendMessageCreator, updateMessageCreator} from "../../redux/state";
+import {sendMessageCreator, updateMessageCreator} from "../../redux/dialogsReducer";
 
 
 const Dialogs = (props) => {
