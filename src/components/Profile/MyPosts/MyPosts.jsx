@@ -13,12 +13,17 @@ const { TextArea } = Input;
 
 const MyPosts = (props) => {
 
+    const onChange = e => {
+        console.log(e.target.value);
+        props.updateNewPostText (e.target.value);
+    }
+
     return (
         <div className={classes.postsBlock}>
             My Posts
             <div>
                 <div className={classes.textarea}>
-                    <TextArea onChange={props.updateNewPostText} value={props.newPostText} showCount maxLength={250}/>
+                    <TextArea onChange={onChange} value={props.newPostText} showCount maxLength={250}/>
                 </div>
                 <div>
                     <Button onClick={props.addPost}>Add Post</Button>

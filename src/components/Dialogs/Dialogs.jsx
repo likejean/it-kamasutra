@@ -13,6 +13,8 @@ import {Button} from "antd";
 
 const Dialogs = (props) => {
 
+    const onChange = e => props.onMessageTextChange(e.target.value)
+
     return (
         <div className={classes.dialogs}>
             <div className={classes.dialogItems}>
@@ -21,7 +23,7 @@ const Dialogs = (props) => {
             <div className={classes.messages}>
                 <div>{props.messages.map(item => <Message key={item.id} {...item} />)}</div>
                 <div>
-                    <div><textarea value={props.newMessageText} onChange={props.onMessageTextChange} placeholder="Enter your message"/></div>
+                    <div><textarea value={props.newMessageText} onChange={onChange} placeholder="Enter your message"/></div>
                     <div onClick={props.onSendMessageClick}><Button>Send</Button></div>
                 </div>
             </div>

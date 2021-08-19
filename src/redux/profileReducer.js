@@ -25,10 +25,12 @@ const profileReducer = (state = initialState, action) => {
             return state;
 
         case UPDATE_POST:
+            debugger;
             state.newPostText = action.payload;
             return state;
 
-        default: return state;
+        default:
+            return state;
     }
 }
 
