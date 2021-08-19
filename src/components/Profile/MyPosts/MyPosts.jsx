@@ -14,7 +14,6 @@ const { TextArea } = Input;
 const MyPosts = (props) => {
 
     const onChange = e => {
-        console.log(e.target.value);
         props.updateNewPostText (e.target.value);
     }
 
