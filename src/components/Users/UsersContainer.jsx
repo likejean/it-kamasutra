@@ -1,18 +1,28 @@
 import {connect} from "react-redux";
-import Users from "./Users";
-import {followUserCreator, setUsersCreator, unfollowUserCreator} from "../../redux/usersReducers";
-
+import {
+    followUserCreator,
+    setCurrentPageCreator,
+    setTotalUsersCreator,
+    setUsersCreator,
+    unfollowUserCreator
+} from "../../redux/usersReducers";
+import Users from './Users';
 
 //Контейнерная компонента
 
 const mapStateToProps = (state) => ({
-    users: state.usersPage.users
+    users: state.usersPage.users,
+    pageSize: state.usersPage.pageSize,
+    totalUsersCount: state.usersPage.totalUsersCount,
+    currentPage: state.usersPage.currentPage
 });
 
 const mapDispatchToProps = (dispatch) => ({
     followUser: (userId) => dispatch(followUserCreator(userId)),
     unfollowUser: (userId) => dispatch(unfollowUserCreator(userId)),
-    setUsers: (users) => dispatch(setUsersCreator(users))
+    setUsers: (users) => dispatch(setUsersCreator(users)),
+    setCurrentPage: (currentPage) => dispatch(setCurrentPageCreator(currentPage)),
+    setTotalUsersCount: (usersCount) => dispatch(setTotalUsersCreator(usersCount))
 });
 
 
