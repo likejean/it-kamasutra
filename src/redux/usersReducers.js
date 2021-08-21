@@ -3,12 +3,14 @@ const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 const SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT";
+const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 
 const initialState = {
     users: [],
     pageSize: 100,
-    totalUsersCount: 100,
-    currentPage: 3
+    totalUsersCount: 0,
+    currentPage: 1,
+    isFetching: false
 };
 
 
@@ -40,7 +42,8 @@ const userReducer = (state = initialState, action) => {
 
         case SET_USERS:
             return {
-                ...state, users: action.users
+                ...state,
+                users: action.users
             };
 
         case SET_CURRENT_PAGE:
@@ -51,6 +54,9 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state, totalUsersCount: action.usersCount
             }
+        case TOGGLE_IS_FETCHING: {
+            return {...state, isFetching: action.isFetching}
+        }
         default:
             return state;
     }
@@ -62,5 +68,6 @@ export const unfollowUserCreator = (userId) => ({type: UNFOLLOW, userId});
 export const setUsersCreator = (users) => ({type: SET_USERS, users});
 export const setCurrentPageCreator = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage});
 export const setTotalUsersCreator = (usersCount) => ({type: SET_TOTAL_USERS_COUNT, usersCount});
+export const toggleIsFetchingCreator = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
 
 export default userReducer;
