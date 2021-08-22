@@ -1,3 +1,5 @@
+import {usersAPI} from "../api/api";
+
 const SET_USER_AUTH = "SET_USER_AUTH";
 
 const initialState = {
@@ -25,6 +27,17 @@ const authReducer = (state = initialState, action) => {
 
 //Actions
 
-export const setUserAuthCreator = (id, email, login) => ({type: SET_USER_AUTH, credentials: {id, email, login}});
+const setUserAuthCreator = (id, email, login) => ({type: SET_USER_AUTH, credentials: {id, email, login}});
+
+//Thunks
+
+export const userLoginThunkCreator = () => (dispatch) => {
+    usersAPI.login().then(data => {
+        if (data.resultCode === 0) {
+            let {id, login, email} = data.data;
+            dispatch(setUserAuthCreator(id, email, login));
+        }
+    }).catch(err => console.log(err));
+}
 
 export default authReducer;
