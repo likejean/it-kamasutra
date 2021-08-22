@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Navbar.module.css';
-import {NavLink} from "react-router-dom";
+import {NavLink, withRouter} from "react-router-dom";
 import {Menu} from "antd";
 import {
     UserOutlined
@@ -8,11 +8,20 @@ import {
 import Avatar from "antd/es/avatar/avatar";
 import links from "./NavLinkList";
 
-const Navbar = () => {
+const Navbar = (props) => {
+
+    let selectedKey;
+    const url = props.location.pathname.split('/');
+    if(!url[0] && !url[1]){
+        selectedKey = '0';
+    }else{
+        selectedKey = links.find(obj => obj.path === '/' + url[1]).id.toString();
+    }
+
 
     return (
         <div>
-            <Menu className={classes.navbar}>
+            <Menu className={classes.navbar} defaultSelectedKeys={['1']} selectedKeys={[selectedKey]}>
                 {links.map((item, idx) => (
                     <Menu.Item key={idx} className={classes.item} icon={item.icon}>
                         <NavLink to={item.path} activeClassName={classes.active}>{item.tabName}</NavLink>
@@ -34,4 +43,4 @@ const Navbar = () => {
     );
 }
 
-export default Navbar;
+export default withRouter(Navbar);

@@ -8,9 +8,8 @@ import {
 } from "../../redux/usersReducers";
 import React from "react";
 import axios from "axios";
-import classes from "./Users.module.css";
 import Users from "./Users";
-import {Row, Space, Spin} from "antd";
+import Loader from "../utils/loaders/Loader";
 
 //Контейнерная компонента
 
@@ -38,16 +37,7 @@ class UsersContainerComponent extends React.Component {
 
     render() {
         if(this.props.isFetching) {
-            return(
-                <div className={classes.usersLoader}>
-                    <Row justify="center" align="center">
-                        <Spin size="large" />
-                    </Row>
-                    <Row justify="center" align="center">
-                        <span>Please, wait. Loading...</span>
-                    </Row>
-                </div>
-            )
+            return <Loader comment="Please, wait. Loading users..." size="large" />
         }else{
             return (
                 <Users users={this.props.users}
@@ -71,14 +61,13 @@ const mapStateToProps = (state) => ({
     isFetching: state.usersPage.isFetching
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    followUser: (userId) => dispatch(followUserCreator(userId)),
-    unfollowUser: (userId) => dispatch(unfollowUserCreator(userId)),
-    setUsers: (users) => dispatch(setUsersCreator(users)),
-    setCurrentPage: (currentPage) => dispatch(setCurrentPageCreator(currentPage)),
-    setTotalUsersCount: (usersCount) => dispatch(setTotalUsersCreator(usersCount)),
-    toggleIsFetching: (isFetching) => dispatch(toggleIsFetchingCreator(isFetching))
-});
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainerComponent);
+export default connect(
+    mapStateToProps,
+    {
+        followUser: followUserCreator,
+        unfollowUser: unfollowUserCreator,
+        setUsers: setUsersCreator,
+        setCurrentPage: setCurrentPageCreator,
+        setTotalUsersCount: setTotalUsersCreator,
+        toggleIsFetching: toggleIsFetchingCreator
+    })(UsersContainerComponent);

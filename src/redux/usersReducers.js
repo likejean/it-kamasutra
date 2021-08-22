@@ -70,4 +70,5 @@ export const setCurrentPageCreator = (currentPage) => ({type: SET_CURRENT_PAGE, 
 export const setTotalUsersCreator = (usersCount) => ({type: SET_TOTAL_USERS_COUNT, usersCount});
 export const toggleIsFetchingCreator = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
 
+
 export default userReducer;
