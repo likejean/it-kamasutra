@@ -4,6 +4,11 @@
     background-color: whitesmoke;
 }
 
+.title {
+    font-size: 65px;
+    margin: 20px;
+}
+
 .header img {
     width: 55px;
 }
@@ -15,4 +20,8 @@
 
 .loginBlock a {
     color: lavenderblush;
+}
+
+.loginBlock h2 {
+    margin: 0 15px;
 }

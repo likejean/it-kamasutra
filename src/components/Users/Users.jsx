@@ -5,6 +5,7 @@ import Avatar from "antd/es/avatar/avatar";
 import {UserOutlined} from "@ant-design/icons";
 import UsersPagination from "../utils/paginations/UsersPagination";
 import {NavLink} from "react-router-dom";
+import axios from "axios";
 
 function Users({users, followUser, unfollowUser, totalUsersCount, currentPage, pageSize, onPaginationChangeHandler}) {
 
@@ -57,9 +58,34 @@ function Users({users, followUser, unfollowUser, totalUsersCount, currentPage, p
                                 </div>
                                 <div>
                                     {user.followed ?
-                                        <Button onClick={() => unfollowUser(user.id)}>Follow</Button>
+                                        <Button onClick={() => {
+                                            axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {
+                                                withCredentials: true,
+                                                headers: {
+                                                    "API-KEY": "e225716d-224e-40c8-9200-e6ce59052ef6"
+                                                }
+                                            })
+                                            .then(response => {
+                                                if (response.data.resultCode === 0) {
+                                                    unfollowUser(user.id);
+                                                }
+                                            });
+
+                                        }}>Follow</Button>
                                         :
-                                        <Button onClick={() => followUser(user.id)}>Unfollow</Button>
+                                        <Button onClick={() => {
+                                            axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {}, {
+                                                withCredentials: true,
+                                                headers: {
+                                                    "API-KEY": "e225716d-224e-40c8-9200-e6ce59052ef6"
+                                                }
+                                            })
+                                            .then(response => {
+                                                if (response.data.resultCode === 0) {
+                                                    followUser(user.id);
+                                                }
+                                            });
+                                        }}>Unfollow</Button>
                                     }
                                 </div>
                             </Space>
