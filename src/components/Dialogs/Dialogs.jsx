@@ -13,7 +13,7 @@ import {Button} from "antd";
 
 const Dialogs = (props) => {
 
-    const onChange = e => props.onMessageTextChange(e.target.value)
+    const onChange = e => props.onMessageTextChange(e.target.value);
 
     return (
         <div className={classes.dialogs}>
@@ -31,5 +31,6 @@ const Dialogs = (props) => {
         </div>
     );
 }
+
 
 export default Dialogs;

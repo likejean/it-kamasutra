@@ -4,13 +4,13 @@ import {NavLink} from "react-router-dom";
 import Avatar from "antd/es/avatar/avatar";
 import {UserOutlined} from "@ant-design/icons";
 
-const UserAvatar = ({photo, idx, userId}) => {
+const UserAvatar = ({isAuth, photo, idx, userId}) => {
     return (
         <div className='ant-col-5'>
             {photo === null
                 ?
                 <Badge size="default" count={idx + 1}>
-                    <NavLink to={'/profile/' + userId}>
+                    <NavLink disabled={!isAuth} to={'/profile/' + userId}>
                         <Avatar
                             shape="square"
                             size={125}
@@ -21,7 +21,7 @@ const UserAvatar = ({photo, idx, userId}) => {
                 </Badge>
                 :
                 <Badge size="default" count={idx + 1}>
-                    <NavLink to={'/profile/' + userId}>
+                    <NavLink disabled={!isAuth} to={'/profile/' + userId}>
                         <Avatar
                             shape="square"
                             size={125}

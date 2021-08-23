@@ -1,3 +1,5 @@
+import {usersAPI} from "../api/api";
+
 const ADD_POST = "ADD_POST";
 const UPDATE_POST = "UPDATE_POST";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
@@ -39,5 +41,12 @@ const profileReducer = (state = initialState, action) => {
 export const addPostCreator = () => ({type: ADD_POST});
 export const updatePostCreator = (payload) => ({type: UPDATE_POST, payload});
 export const setUserProfileCreator = (profile) => ({type: SET_USER_PROFILE, profile});
+
+//Thunks
+export const setUserProfileThunkCreator = (userId) => (dispatch) => {
+    usersAPI.getUserProfile(userId).then(response => {
+        dispatch(setUserProfileCreator(response.data));
+    });
+}
 
 export default profileReducer;

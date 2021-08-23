@@ -5,7 +5,7 @@ import UsersPagination from "../utils/paginations/UsersPagination";
 import FollowButton from "../utils/buttons/UserFollowingButton";
 import UserAvatar from "../utils/avatars/UserAvatar";
 
-function Users({users, followUser, unfollowUser, totalUsersCount, currentPage, pageSize, onPaginationChangeHandler, followingInProgress}) {
+function Users({isAuth, users, followUser, unfollowUser, totalUsersCount, currentPage, pageSize, onPaginationChangeHandler, followingInProgress}) {
 
     const pagesCount = totalUsersCount % pageSize === 0
         ? totalUsersCount / pageSize
@@ -28,11 +28,14 @@ function Users({users, followUser, unfollowUser, totalUsersCount, currentPage, p
                     <Badge.Ribbon text={user.name}>
                         <Card className='ant-row-center' title={user.name} size="medium">
                             <Space size='large'>
-                                <UserAvatar photo={user.photos.small} idx={idx} userId={user.id}/>
-                                {!user.followed ?
-                                    <FollowButton followingInProgress={followingInProgress} followHandler={followUser} id={user.id} description={'Follow'}/>
-                                     :
-                                    <FollowButton followingInProgress={followingInProgress} followHandler={unfollowUser} id={user.id} description={'Unfollow'}/>
+                                <UserAvatar isAuth={isAuth} photo={user.photos.small} idx={idx} userId={user.id}/>
+                                {isAuth ?
+                                    !user.followed ?
+                                        <FollowButton followingInProgress={followingInProgress} followHandler={followUser} id={user.id} description={'Follow'}/>
+                                         :
+                                        <FollowButton followingInProgress={followingInProgress} followHandler={unfollowUser} id={user.id} description={'Unfollow'}/>
+                                    :
+                                    null
                                 }
                             </Space>
                         </Card>

@@ -32,9 +32,9 @@ const setUserAuthCreator = (id, email, login) => ({type: SET_USER_AUTH, credenti
 //Thunks
 
 export const userLoginThunkCreator = () => (dispatch) => {
-    usersAPI.login().then(data => {
-        if (data.resultCode === 0) {
-            let {id, login, email} = data.data;
+    usersAPI.userLogin().then(response => {
+        if (response.data.resultCode === 0) {
+            let {id, login, email} = response.data.data;
             dispatch(setUserAuthCreator(id, email, login));
         }
     }).catch(err => console.log(err));

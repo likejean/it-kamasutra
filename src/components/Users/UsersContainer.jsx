@@ -8,10 +8,11 @@ import {
 import React from "react";
 import Users from "./Users";
 import Loader from "../utils/loaders/Loader";
+import {compose} from "redux";
+import WithAuthRedirect from "../../hoc/WithAuthRedirect";
 
 //Контейнерная компонента
-
-class UsersContainerComponent extends React.Component {
+class UsersContainer extends React.Component {
 
     componentDidMount() {
         this.props.getUsers(this.props.currentPage, this.props.pageSize);
@@ -28,6 +29,7 @@ class UsersContainerComponent extends React.Component {
             return (
                 <Users users={this.props.users}
                        followUser={this.props.followUser}
+                       isAuth={this.props.isAuth}
                        unfollowUser={this.props.unfollowUser}
                        totalUsersCount={this.props.totalUsersCount}
                        currentPage={this.props.currentPage}
@@ -41,6 +43,7 @@ class UsersContainerComponent extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+    isAuth: state.auth.isAuth,
     users: state.usersPage.users,
     pageSize: state.usersPage.pageSize,
     totalUsersCount: state.usersPage.totalUsersCount,
@@ -49,11 +52,15 @@ const mapStateToProps = (state) => ({
     followingInProgress: state.usersPage.followingInProgress
 });
 
-export default connect(
-    mapStateToProps,
-    {
-        followUser: followUserThunkCreator,
-        unfollowUser: unfollowUserThunkCreator,
-        getUsers: getUsersThunkCreator,
-        changeUsersPage: changeUsersPageThunkCreator
-    })(UsersContainerComponent);
+
+export default compose(
+    WithAuthRedirect,   //оборачиваем ХОКом DialogsContainer if authentication protection is needed for entire page
+    connect(
+        mapStateToProps,
+        {
+            followUser: followUserThunkCreator,
+            unfollowUser: unfollowUserThunkCreator,
+            getUsers: getUsersThunkCreator,
+            changeUsersPage: changeUsersPageThunkCreator
+        })
+)(UsersContainer);
