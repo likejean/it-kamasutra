@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Checkbox, Input} from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-
+const { TextArea } = Input;
 
 export class LoginUserNameFormInput extends Component {
     render() {
@@ -36,6 +36,7 @@ export class LoginUserPasswordFormInput extends Component {
     }
 }
 
+
 export class LoginUserCheckboxFormInput extends Component {
     render() {
         const {input: {onChange}} = this.props;
@@ -48,5 +49,21 @@ export class LoginUserCheckboxFormInput extends Component {
         )
     }
 }
+
+export class DialogsFormTextarea extends Component {
+    render() {
+        const {input: {onChange, value}} = this.props;
+        return (
+            <TextArea
+                value={value}
+                placeholder="enter your new message"
+                showCount maxLength={1000}
+                onChange={onChange}
+            />
+        )
+    }
+}
+
+
 
 
