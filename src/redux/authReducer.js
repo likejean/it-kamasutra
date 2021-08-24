@@ -1,4 +1,4 @@
-import {usersAPI} from "../api/api";
+import {authAPI} from "../api/api";
 
 const SET_USER_AUTH = "SET_USER_AUTH";
 
@@ -32,7 +32,7 @@ const setUserAuthCreator = (id, email, login) => ({type: SET_USER_AUTH, credenti
 //Thunks
 
 export const userLoginThunkCreator = () => (dispatch) => {
-    usersAPI.userLogin().then(response => {
+    authAPI.userLogin().then(response => {
         if (response.data.resultCode === 0) {
             let {id, login, email} = response.data.data;
             dispatch(setUserAuthCreator(id, email, login));
