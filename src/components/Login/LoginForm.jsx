@@ -6,7 +6,7 @@ import {
     LoginUserCheckboxFormInput,
     LoginUserNameFormInput,
     LoginUserPasswordFormInput
-} from "../utils/inputs/LoginFormInput";
+} from "../utils/inputs/ReduxFormInputs";
 
 
 const LoginForm = (props) => {

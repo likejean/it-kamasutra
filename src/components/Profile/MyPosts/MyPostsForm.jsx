@@ -1,19 +1,17 @@
 import React from 'react';
 import {Button, Space} from "antd";
-import classes from "../Login/Login.module.css";
 import {Field} from "redux-form";
-import {
-    DialogsFormTextarea
-} from "../utils/inputs/ReduxFormInputs";
+import {PostFormTextarea} from "../../utils/inputs/ReduxFormInputs";
 
-const DialogsForm = (props) => {
+
+const MyPostsForm = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <Space direction='vertical'>
-                <div className={classes.formItem}>
-                    <Field id="newMessageBody" name={"newMessageBody"} component={DialogsFormTextarea} />
+                <div>
+                    <Field id="newPostBody" name={"newPostBody"} component={PostFormTextarea} />
                 </div>
-                <div className={classes.formItem}>
+                <div>
                     <Button type="primary" htmlType="submit">
                         Submit
                     </Button>
@@ -23,4 +21,4 @@ const DialogsForm = (props) => {
     );
 }
 
-export default DialogsForm;
+export default MyPostsForm;

@@ -1,7 +1,6 @@
 import {profileAPI} from "../api/api";
 
 const ADD_POST = "ADD_POST";
-const UPDATE_POST = "UPDATE_POST";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_STATUS = "SET_STATUS";
 const TOGGLE_IS_FETCHING_STATUS = "TOGGLE_IS_FETCHING_STATUS";
@@ -13,7 +12,6 @@ const initialState = {
         {id: 3, message: 'This tutorial is awesome!', likes: 452}
     ],
     profile: null,
-    newPostText: '',
     isStatusFetching: false,
     status: ''
 };
@@ -25,13 +23,10 @@ const profileReducer = (state = initialState, action) => {
         case ADD_POST:
             let newPost = {
                 id: state.posts.length + 1,
-                message: state.newPostText,
-                likes: 0
+                message: action.newPostText,
+                likes: 1
             };
             return {...state, newPostText: '', posts: state.posts.concat(newPost)};
-
-        case UPDATE_POST:
-            return {...state, newPostText: action.payload};
 
         case TOGGLE_IS_FETCHING_STATUS:
             return {...state, isStatusFetching: action.isStatusFetching}
@@ -48,8 +43,7 @@ const profileReducer = (state = initialState, action) => {
 }
 
 //Actions
-export const addPostCreator = () => ({type: ADD_POST});
-export const updatePostCreator = (payload) => ({type: UPDATE_POST, payload});
+export const addPostCreator = (newPostText) => ({type: ADD_POST, newPostText});
 export const setUserProfileCreator = (profile) => ({type: SET_USER_PROFILE, profile});
 export const setStatusCreator = (status) => ({type: SET_STATUS, status});
 export const loadingUserStatusCreator = (isStatusFetching) => ({type: TOGGLE_IS_FETCHING_STATUS, isStatusFetching});

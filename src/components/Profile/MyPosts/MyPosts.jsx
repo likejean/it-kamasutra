@@ -1,8 +1,8 @@
 import React from 'react';
 import classes from './MyPosts.module.css';
 import Post from './Post/Post';
-import {Button, Input} from 'antd';
-const { TextArea } = Input;
+import {reduxForm} from "redux-form";
+import MyPostsForm from "./MyPostsForm";
 
 ///////////////COMMENTS//////////////////////////////
 // Презентационная компонента - pure function.
@@ -11,23 +11,16 @@ const { TextArea } = Input;
 // Receives data via props from Container Component.
 ////////////////////////////////////////////////////
 
+const AddPostReduxForm = reduxForm({form: 'post'})(MyPostsForm);
+
 const MyPosts = (props) => {
 
-    const onChange = e => {
-        props.updateNewPostText (e.target.value);
-    }
+    const onSubmit = ({newPostBody}) => props.addPost(newPostBody)
 
     return (
         <div className={classes.postsBlock}>
             My Posts
-            <div>
-                <div className={classes.textarea}>
-                    <TextArea onChange={onChange} value={props.newPostText} showCount maxLength={250}/>
-                </div>
-                <div>
-                    <Button onClick={props.addPost}>Add Post</Button>
-                </div>
-            </div>
+            <AddPostReduxForm onSubmit={onSubmit} />
             <div className={classes.posts}>
                 {props.posts.map(post => <Post key={post.id} {...post}/>)}
             </div>

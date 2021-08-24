@@ -64,6 +64,22 @@ export class DialogsFormTextarea extends Component {
     }
 }
 
+export class PostFormTextarea extends Component {
+    render() {
+        const {input: {onChange, value}} = this.props;
+        return (
+            <TextArea
+                value={value}
+                placeholder="enter your new post"
+                showCount maxLength={1000}
+                onChange={onChange}
+            />
+        )
+    }
+}
+
+
+
 
 
 

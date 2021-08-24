@@ -1,10 +1,14 @@
 
 .item {
-    color: antiquewhite;
+    color: black;
 }
 
 .item img {
     width: 45px;
     height: 45px;
     border-radius: 50%;
+}
+
+.avatar {
+    margin: 10px;
 }
