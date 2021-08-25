@@ -7,7 +7,16 @@ import {
     LoginUserNameFormInput,
     LoginUserPasswordFormInput
 } from "../utils/inputs/ReduxFormInputs";
+import {
+    maxPasswordLengthCreator, maxUsernameLengthCreator,
+    minPasswordLengthCreator, minUsernameLengthCreator,
+    requiredField
+} from "../utils/validators/validators";
 
+const minPasswordLength = minPasswordLengthCreator(10);
+const maxPasswordLength = maxPasswordLengthCreator(20);
+const minUsernameLength = minUsernameLengthCreator(6);
+const maxUsernameLength = maxUsernameLengthCreator(12);
 
 const LoginForm = (props) => {
     //Контейнерная компонента, которая оборачивает форму. совершает следующие действия скрыто (под капотом):
@@ -19,10 +28,10 @@ const LoginForm = (props) => {
             <form onSubmit={props.handleSubmit}>
                 <Space direction='vertical'>
                     <div className={classes.formItem}>
-                        <Field id="username" name={"username"} component={LoginUserNameFormInput} />
+                        <Field id="username" validate={[requiredField, maxUsernameLength, minUsernameLength]} name={"username"} component={LoginUserNameFormInput} />
                     </div>
                     <div className={classes.formItem}>
-                        <Field id="password" name={"password"} component={LoginUserPasswordFormInput} />
+                        <Field id="password" validate={[requiredField, maxPasswordLength, minPasswordLength]} name={"password"} component={LoginUserPasswordFormInput} />
                     </div>
                     <div className={classes.formItem}>
                         <Field id="checkbox" name={"rememberMe"} component={LoginUserCheckboxFormInput} />

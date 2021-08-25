@@ -15,7 +15,7 @@ const AddPostReduxForm = reduxForm({form: 'post'})(MyPostsForm);
 
 const MyPosts = (props) => {
 
-    const onSubmit = ({newPostBody}) => props.addPost(newPostBody)
+    const onSubmit = ({newPostBody}) => props.addPost(newPostBody);
 
     return (
         <div className={classes.postsBlock}>

@@ -1,19 +1,22 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {Checkbox, Input} from 'antd';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-const { TextArea } = Input;
+import {EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
+
+const {TextArea} = Input;
 
 export class LoginUserNameFormInput extends Component {
     render() {
-        const {input: {value, onChange}} = this.props;
+        const {input, meta: {visited, error}} = this.props;
         return (
             <div>
                 <Input
+                    {...input}
                     placeholder="input username"
                     size='large'
-                    value={value}
-                    onChange={onChange}
+                    bordered={!(visited && error)}
+                    style={{borderRadius: visited && error && '3px', border: visited && error && '4px solid red' }}
                 />
+                {visited && error && <p style={{color: 'red'}}>{error}</p>}
             </div>
         )
     }
@@ -21,16 +24,18 @@ export class LoginUserNameFormInput extends Component {
 
 export class LoginUserPasswordFormInput extends Component {
     render() {
-        const {input: {value, onChange}} = this.props;
+        const {input, meta: {visited, error}} = this.props;
         return (
             <div>
                 <Input.Password
+                    {...input}
                     placeholder="input password"
-                    value={value}
                     size='large'
-                    onChange={onChange}
-                    iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                    bordered={!(visited && error)}
+                    style={{borderRadius: visited && error && '3px', border: visited && error && '4px solid red' }}
+                    iconRender={visible => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}
                 />
+                {visited && error && <p style={{color: 'red'}}>{error}</p>}
             </div>
         )
     }
@@ -52,28 +57,38 @@ export class LoginUserCheckboxFormInput extends Component {
 
 export class DialogsFormTextarea extends Component {
     render() {
-        const {input: {onChange, value}} = this.props;
+        const {input, meta: {visited, error}} = this.props;
         return (
-            <TextArea
-                value={value}
-                placeholder="enter your new message"
-                showCount maxLength={1000}
-                onChange={onChange}
-            />
+            <>
+                <TextArea
+                    {...input}
+                    placeholder="enter your new message"
+                    bordered={!(visited && error)}
+                    style={{border: visited && error && '4px solid red' }}
+                    showCount maxLength={1000}
+                />
+                {visited && error && <p style={{color: 'red'}}>{error}</p>}
+            </>
+
         )
     }
 }
 
 export class PostFormTextarea extends Component {
+
     render() {
-        const {input: {onChange, value}} = this.props;
+        const {input, meta: {error, visited}} = this.props;
         return (
-            <TextArea
-                value={value}
-                placeholder="enter your new post"
-                showCount maxLength={1000}
-                onChange={onChange}
-            />
+            <>
+                <TextArea
+                    {...input}
+                    bordered={!(visited && error)}
+                    style={{border: visited && error && '4px solid red' }}
+                    placeholder="enter your new post"
+                    showCount maxLength={1000}
+                />
+                {visited && error && <p style={{color: 'red'}}>{error}</p>}
+            </>
         )
     }
 }
