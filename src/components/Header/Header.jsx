@@ -23,7 +23,7 @@ const Header = (props) => {
                             icon={<UserOutlined/>}
                         />}
                         {props.isAuth && <h2>{props.login}</h2>}
-                        {!props.isAuth ? <NavLink to={'/login'}><Button>Login</Button></NavLink> : <Button>Logout</Button>}
+                        {!props.isAuth ? <NavLink to={'/login'}><Button>Login</Button></NavLink> : <Button onClick={props.logoutUser}>Logout</Button>}
                     </Row>
                 </Space>
             </div>

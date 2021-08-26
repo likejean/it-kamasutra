@@ -4,17 +4,17 @@ import {EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
 
 const {TextArea} = Input;
 
-export class LoginUserNameFormInput extends Component {
+export class LoginEmailFormInput extends Component {
     render() {
         const {input, meta: {visited, error}} = this.props;
         return (
             <div>
                 <Input
                     {...input}
-                    placeholder="input username"
+                    placeholder="input your email"
                     size='large'
                     bordered={!(visited && error)}
-                    style={{borderRadius: visited && error && '3px', border: visited && error && '4px solid red' }}
+                    style={{width: 350, borderRadius: visited && error && '3px', border: visited && error && '4px solid red' }}
                 />
                 {visited && error && <p style={{color: 'red'}}>{error}</p>}
             </div>
@@ -32,7 +32,7 @@ export class LoginUserPasswordFormInput extends Component {
                     placeholder="input password"
                     size='large'
                     bordered={!(visited && error)}
-                    style={{borderRadius: visited && error && '3px', border: visited && error && '4px solid red' }}
+                    style={{width: 350, borderRadius: visited && error && '3px', border: visited && error && '4px solid red' }}
                     iconRender={visible => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}
                 />
                 {visited && error && <p style={{color: 'red'}}>{error}</p>}
@@ -69,7 +69,6 @@ export class DialogsFormTextarea extends Component {
                 />
                 {visited && error && <p style={{color: 'red'}}>{error}</p>}
             </>
-
         )
     }
 }

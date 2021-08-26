@@ -19,7 +19,7 @@ export const minPasswordLengthCreator = (minLength) => value => {
 }
 
 export const maxPasswordLengthCreator = (maxLength) => value => {
-    if (value && value.length > maxLength) return `Min length of ${maxLength} symbols required`;
+    if (value && value.length > maxLength) return `Max length of ${maxLength} symbols required`;
     return undefined;
 }
 
@@ -29,7 +29,7 @@ export const minUsernameLengthCreator = (minLength) => value => {
 }
 
 export const maxUsernameLengthCreator = (maxLength) => value => {
-    if (value && value.length > maxLength) return `Min length of ${maxLength} symbols required`;
+    if (value && value.length > maxLength) return `Max length of ${maxLength} symbols required`;
     return undefined;
 }
 

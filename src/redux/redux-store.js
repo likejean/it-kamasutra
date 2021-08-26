@@ -6,7 +6,11 @@ import usersReducers from "./usersReducers";
 import authReducer from "./authReducer";
 import { reducer as formReducer } from 'redux-form';
 import thunk from "redux-thunk";
+import initReducer from "./initReducer";
 
+const SET_USER_AUTH = "SET_USER_AUTH";
+const SEND_MESSAGE = "SEND_MESSAGE";
+const ADD_POST = "ADD_POST";
 
 //Combine reducers
 let reducers = combineReducers({
@@ -15,7 +19,33 @@ let reducers = combineReducers({
     usersPage: usersReducers,
     sidebar: sidebarReducer,
     auth: authReducer,
-    form: formReducer
+    app: initReducer,
+    form: formReducer.plugin({
+        message: (state, action) => {
+            switch (action.type) {
+                case SEND_MESSAGE:
+                    return undefined;
+                default:
+                    return state;
+            }
+        },
+        post: (state, action) => {
+            switch (action.type) {
+                case ADD_POST:
+                    return undefined;
+                default:
+                    return state;
+            }
+        },
+        login: (state, action) => {
+            switch (action.type) {
+                case SET_USER_AUTH:
+                    return undefined;
+                default:
+                    return state;
+            }
+        }
+    })
 });
 
 //Assign reducer

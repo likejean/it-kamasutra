@@ -15,6 +15,9 @@ const mapStateToProps = (state) => ({
 
 //Which Order?: connect() ------> AuthRedirect() HOC ----->  <DialogsContainer /> -----> <Dialogs />
 export default compose(
-    connect(mapStateToProps, {onSendMessageClick: sendMessageCreator}),
+    connect(
+        mapStateToProps,
+        {onSendMessageClick: sendMessageCreator}
+    ),
     WithAuthRedirect //оборачиваем ХОКом DialogsContainer, которая в свою очередь оборачивает Dialogs целевую компоненту для атентификационного перенаправления
 )(Dialogs)

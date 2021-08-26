@@ -5,13 +5,14 @@ import {PostFormTextarea} from "../../utils/inputs/ReduxFormInputs";
 import {maxLengthCreator, requiredField} from "../../utils/validators/validators";
 
 
-const maxLength10 = maxLengthCreator(30);
+const maxLength = maxLengthCreator(30);
 const MyPostsForm = (props) => {
+
     return (
         <form onSubmit={props.handleSubmit}>
             <Space direction='vertical'>
                 <div>
-                    <Field validate={[requiredField, maxLength10]} id="newPostBody" name={"newPostBody"} component={PostFormTextarea} />
+                    <Field validate={[requiredField, maxLength]} id="newPostBody" name={"newPostBody"} component={PostFormTextarea} />
                 </div>
                 <div>
                     <Button type="primary" htmlType="submit">

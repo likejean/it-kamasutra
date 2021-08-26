@@ -1,19 +1,22 @@
 import React from 'react';
 import {Alert, Row} from "antd";
-import {connect} from "react-redux";
 import LoginForm from "./LoginForm";
 import {reduxForm} from "redux-form";
+import {Redirect} from "react-router-dom";
 
 
-const LoginReduxForm = reduxForm({
-    form: 'login'
-})(LoginForm);
+const LoginReduxForm = reduxForm({form: 'login'})(LoginForm);
 
 
 const Login = (props) => {
 
     const onSubmit = (formData) => {
-        console.log('LOGIN', formData);
+        const { email, password, rememberMe} = formData;
+        props.login(email, password, rememberMe);
+    }
+
+    if(props.isAuth) {
+        return <Redirect to={'/profile'}/>
     }
     return (
         <div>
@@ -26,9 +29,4 @@ const Login = (props) => {
     );
 }
 
-
-const mapStateToProps = (state) => ({
-    isAuth: state.auth.isAuth
-});
-
-export default connect(mapStateToProps)(Login);
+export default Login;

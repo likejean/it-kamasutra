@@ -13,22 +13,24 @@ import {compose} from "redux";
 class ProfileContainer extends Component {
 
     componentDidMount() {
-        let userId;
-        if(this.props.match.params.userId) userId = this.props.match.params.userId;
-        else userId = 19255;
+        let userId = this.props.match.params.userId;
+        if(!userId) {
+            userId = this.props.authorizedUserId;
+            if(!userId) this.props.history.push('/login');
+        }
         this.props.setUserProfile(userId);
         this.props.setUserStatus(userId);
     }
 
     render() {
         return (
-                <Profile
-                    {...this.props}
-                    profile={this.props.profile}
-                    status={this.props.status}
-                    updateUserStatus={this.props.updateUserStatus}
-                    isStatusFetching={this.props.isStatusFetching}
-                />
+            <Profile
+                {...this.props}
+                profile={this.props.profile}
+                status={this.props.status}
+                updateUserStatus={this.props.updateUserStatus}
+                isStatusFetching={this.props.isStatusFetching}
+            />
         );
     }
 }
@@ -36,7 +38,9 @@ class ProfileContainer extends Component {
 const mapStateToProps = (state) => ({
     profile: state.profilePage.profile,
     status: state.profilePage.status,
-    isStatusFetching: state.profilePage.isStatusFetching
+    isStatusFetching: state.profilePage.isStatusFetching,
+    authorizedUserId: state.auth.id,
+    isAuth: state.auth.isAuth
 });
 
 //Which Order?: connect() ------> withRouter -----> AuthRedirect() HOC ----->  <ProfileContainer /> -----> <Profile />
