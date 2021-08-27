@@ -5,7 +5,7 @@ import UsersPagination from "../utils/paginations/UsersPagination";
 import FollowButton from "../utils/buttons/UserFollowingButton";
 import UserAvatar from "../utils/avatars/UserAvatar";
 
-function Users({isAuth, users, followUser, unfollowUser, totalUsersCount, currentPage, pageSize, onPaginationChangeHandler, followingInProgress}) {
+const Users = ({isAuth, users, followUser, unfollowUser, totalUsersCount, currentPage, pageSize, onPaginationChangeHandler, followingInProgress}) => {
 
     const pagesCount = totalUsersCount % pageSize === 0
         ? totalUsersCount / pageSize

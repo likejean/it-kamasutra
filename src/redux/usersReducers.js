@@ -17,14 +17,16 @@ const initialState = {
     followingInProgress: {
         userId: 0,
         inProgress: false
-    }
+    },
+    fake: 1
 };
 
 
 const userReducer = (state = initialState, action) => {
 
     switch (action.type) {
-
+        // case "SET_FAKE":
+        //     return {...state, fake: state.fake + 1}
         case FOLLOW:
             return {
                 ...state,

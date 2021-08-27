@@ -14,6 +14,11 @@ import {connect} from "react-redux";
 import {compose} from "redux";
 import {initAppThunkCreator} from "./redux/initReducer";
 import Loader from "./components/utils/loaders/Loader";
+import store from './redux/redux-store';
+
+// setInterval(() => {
+//     store.dispatch({type: 'SET_FAKE', payload: 1});
+// }, 1000);
 
 class App extends Component {
 
