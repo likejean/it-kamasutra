@@ -1,11 +1,11 @@
 import React from 'react';
-import {Badge, Card, Divider, Row, Space} from "antd";
+import {Badge, Button, Card, Divider, Row, Space} from "antd";
 import classes from "./Users.module.css";
 import UsersPagination from "../utils/paginations/UsersPagination";
 import FollowButton from "../utils/buttons/UserFollowingButton";
 import UserAvatar from "../utils/avatars/UserAvatar";
 
-const Users = ({isAuth, users, followUser, unfollowUser, totalUsersCount, currentPage, pageSize, onPaginationChangeHandler, followingInProgress}) => {
+const Users = ({isAuth, users, getFriends, friendsOnly, followUser, unfollowUser, totalUsersCount, currentPage, pageSize, onPaginationChangeHandler, followingInProgress}) => {
 
     const pagesCount = totalUsersCount % pageSize === 0
         ? totalUsersCount / pageSize
@@ -13,14 +13,30 @@ const Users = ({isAuth, users, followUser, unfollowUser, totalUsersCount, curren
 
     return (
         <div>
-            <UsersPagination
-                currentPage={currentPage}
-                onPaginationChangeHandler={onPaginationChangeHandler}
-                pagesCount={pagesCount}
-            />
+            <Row justify='center'>
+                <div className={classes.pagination}>
+                    <UsersPagination
+                        currentPage={currentPage}
+                        onPaginationChangeHandler={onPaginationChangeHandler}
+                        pagesCount={pagesCount}
+                    />
+                </div>
+            </Row>
             <Row>
+                <div className={classes.title}>
+                    <span style={{fontSize: 35}}>
+                        Users
+                    </span>
+                </div>
                 <Divider orientation="center">
-                    <span style={{fontSize: 25}}>Users</span>
+                    <Space>
+                        <Button
+                            type={friendsOnly ? 'primary' : 'dashed'}
+                            onClick={getFriends}
+                        >
+                            {friendsOnly ? 'Friends Only' : 'Select friends'}
+                        </Button>
+                    </Space>
                 </Divider>
             </Row>
             {

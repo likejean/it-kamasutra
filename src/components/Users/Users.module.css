@@ -12,3 +12,12 @@
     margin: 5px 15px;
     font-size: large;
 }
+
+.title, .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    margin: 45px 0;
+}

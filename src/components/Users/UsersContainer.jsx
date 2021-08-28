@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import {
     changeUsersPageThunkCreator,
-    followUserThunkCreator,
+    followUserThunkCreator, getFriendsThunkCreator,
     getUsersThunkCreator,
     unfollowUserThunkCreator
 } from "../../redux/usersReducers";
@@ -11,13 +11,13 @@ import Loader from "../utils/loaders/Loader";
 import {compose} from "redux";
 import WithAuthRedirect from "../../hoc/WithAuthRedirect";
 import {
-    getCurrentPage, getFollowingInProgress,
+    getCurrentPage, getFollowingInProgress, getFriendsFilterStatus,
     getIsAuth,
     getIsFetching,
     getPageSize,
     getTotalUsersCount,
-    getUsers
-} from "../../redux/usersSelectors";
+    getUsers, getUsersFilteredByPhotoPresent
+} from "../../selectors/usersSelectors";
 
 //Контейнерная компонента
 class UsersContainer extends React.Component {
@@ -30,14 +30,21 @@ class UsersContainer extends React.Component {
         this.props.changeUsersPage(page, this.props.pageSize);
     }
 
+    getFriendsOnly() {
+        this.props.getFriends(this.props.currentPage, this.props.pageSize, true);
+    }
+
     render() {
+        console.log('render')
         if(this.props.isFetching) {
             return <Loader comment="Please, wait. Loading users..." size="large" />
         }else{
             return (
                 <Users users={this.props.users}
                        followUser={this.props.followUser}
+                       getFriends={this.getFriendsOnly.bind(this)}
                        isAuth={this.props.isAuth}
+                       friendsOnly={this.props.friendsOnly}
                        unfollowUser={this.props.unfollowUser}
                        totalUsersCount={this.props.totalUsersCount}
                        currentPage={this.props.currentPage}
@@ -50,27 +57,18 @@ class UsersContainer extends React.Component {
     }
 }
 
-// const mapStateToProps = (state) => ({
-//     isAuth: state.auth.isAuth,
-//     users: state.usersPage.users,
-//     pageSize: state.usersPage.pageSize,
-//     totalUsersCount: state.usersPage.totalUsersCount,
-//     currentPage: state.usersPage.currentPage,
-//     isFetching: state.usersPage.isFetching,
-//     followingInProgress: state.usersPage.followingInProgress
-// });
 
 const mapStateToProps = (state) => ({
-    isAuth: getIsAuth(state),
-    users: getUsers(state),
-    pageSize: getPageSize(state),
-    totalUsersCount: getTotalUsersCount(state),
-    currentPage: getCurrentPage(state),
-    isFetching: getIsFetching(state),
-    followingInProgress: getFollowingInProgress(state)
-});
-
-
+        isAuth: getIsAuth(state),
+        friendsOnly: getFriendsFilterStatus(state),
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state),
+        filteredUsersByPhoto: getUsersFilteredByPhotoPresent(state)
+    });
 
 export default compose(
     WithAuthRedirect,   //оборачиваем ХОКом DialogsContainer if authentication protection is needed for entire page
@@ -80,6 +78,7 @@ export default compose(
             followUser: followUserThunkCreator,
             unfollowUser: unfollowUserThunkCreator,
             getUsers: getUsersThunkCreator,
+            getFriends: getFriendsThunkCreator,
             changeUsersPage: changeUsersPageThunkCreator
         })
 )(UsersContainer);

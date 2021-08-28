@@ -3,14 +3,16 @@ import {usersAPI} from "../api/api";
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
+const SET_FRIENDS = "SET_FRIENDS";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 const SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 const FOLLOWING_IN_PROGRESS= "FOLLOWING_IN_PROGRESS";
+const TOGGLE_FRIENDS_FILTER = "TOGGLE_FRIENDS_FILTER";
 
 const initialState = {
     users: [],
-    pageSize: 100,
+    pageSize: 20,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
@@ -18,15 +20,13 @@ const initialState = {
         userId: 0,
         inProgress: false
     },
-    fake: 1
+    friendsOnly: false
 };
 
 
 const userReducer = (state = initialState, action) => {
 
     switch (action.type) {
-        // case "SET_FAKE":
-        //     return {...state, fake: state.fake + 1}
         case FOLLOW:
             return {
                 ...state,
@@ -55,9 +55,19 @@ const userReducer = (state = initialState, action) => {
                 users: action.users
             };
 
+        case SET_FRIENDS:
+            return {
+                ...state,
+                users: action.friends
+            };
+
         case SET_CURRENT_PAGE:
             return {
                 ...state, currentPage: action.currentPage
+            };
+        case TOGGLE_FRIENDS_FILTER:
+            return {
+                ...state, friendsOnly: action.status
             };
         case SET_TOTAL_USERS_COUNT:
             return {
@@ -84,14 +94,19 @@ const userReducer = (state = initialState, action) => {
 export const followUserCreator = (userId) => ({type: FOLLOW, userId});
 export const unfollowUserCreator = (userId) => ({type: UNFOLLOW, userId});
 export const setUsersCreator = (users) => ({type: SET_USERS, users});
+export const toggleFriendsFilterCreator = (status) => ({type: TOGGLE_FRIENDS_FILTER, status});
+export const setFriendsCreator = (friends) => ({type: SET_FRIENDS, friends});
 export const setCurrentPageCreator = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage});
 export const setTotalUsersCreator = (usersCount) => ({type: SET_TOTAL_USERS_COUNT, usersCount});
 export const toggleIsFetchingCreator = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
 export const toggleFollowingInProgressCreator = (userId, toggleMode) => ({type: FOLLOWING_IN_PROGRESS, followingInProgress: {userId, toggleMode}});
 
 //Thunks
-export const getUsersThunkCreator = (currentPage, pageSize) => (dispatch) => {
+export const getUsersThunkCreator = (currentPage, pageSize) => (dispatch, getState) => {
+    let friendsOnly = getState().usersPage.friendsOnly;
+    if(friendsOnly) dispatch(toggleFriendsFilterCreator(false));
     dispatch(toggleIsFetchingCreator(true));
+
     usersAPI.getUsers(currentPage, pageSize)
         .then(data => {
             dispatch(toggleIsFetchingCreator(false));
@@ -100,14 +115,32 @@ export const getUsersThunkCreator = (currentPage, pageSize) => (dispatch) => {
         });
 };
 
+export const getFriendsThunkCreator = (currentPage, pageSize, friendship) => (dispatch, getState) => {
+    let friendsOnly = getState().usersPage.friendsOnly;
+    if(!friendsOnly) dispatch(toggleFriendsFilterCreator(true));
+    dispatch(toggleIsFetchingCreator(true));
 
-export const changeUsersPageThunkCreator = (currentPage, pageSize) => (dispatch) => {
+    usersAPI.getFriends(currentPage, pageSize, friendship)
+        .then(data => {
+            dispatch(toggleIsFetchingCreator(false));
+            dispatch(setFriendsCreator(data.items));
+            dispatch(setTotalUsersCreator(data.totalCount));
+        });
+};
+
+export const changeUsersPageThunkCreator = (currentPage, pageSize) => (dispatch, getState) => {
     dispatch(setCurrentPageCreator(currentPage));
     dispatch(toggleIsFetchingCreator(true));
-    usersAPI.getUsers(currentPage, pageSize)
+    let friendsOnly = getState().usersPage.friendsOnly;
+    if(!friendsOnly) usersAPI.getUsers(currentPage, pageSize)
         .then(data => {
             dispatch(toggleIsFetchingCreator(false));
             dispatch(setUsersCreator(data.items));
+        });
+    else usersAPI.getFriends(currentPage, pageSize, true)
+        .then(data => {
+            dispatch(toggleIsFetchingCreator(false));
+            dispatch(setFriendsCreator(data.items));
         });
 };
 
