@@ -1,4 +1,6 @@
 import {usersAPI} from "../api/api";
+import {followUserStatusSelector} from "./utils/toggleFollowUser";
+import {copyObjectsInState} from "./utils/copyObjectsInState";
 
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
@@ -30,23 +32,13 @@ const userReducer = (state = initialState, action) => {
         case FOLLOW:
             return {
                 ...state,
-                users: state.users.map(user => {
-                    if (user.id === action.userId) {
-                        return {...user, followed: true}
-                    }
-                    return user;
-                })
+                users: copyObjectsInState(state.users, action.userId, "id", {followed: true})
             };
 
         case UNFOLLOW:
             return {
                 ...state,
-                users: state.users.map(user => {
-                    if (user.id === action.userId) {
-                        return {...user, followed: false}
-                    }
-                    return user;
-                })
+                users: copyObjectsInState(state.users, action.userId, "id", {followed: false})
             };
 
         case SET_USERS:
@@ -102,68 +94,53 @@ export const toggleIsFetchingCreator = (isFetching) => ({type: TOGGLE_IS_FETCHIN
 export const toggleFollowingInProgressCreator = (userId, toggleMode) => ({type: FOLLOWING_IN_PROGRESS, followingInProgress: {userId, toggleMode}});
 
 //Thunks
-export const getUsersThunkCreator = (currentPage, pageSize) => (dispatch, getState) => {
+export const getUsersThunkCreator = (currentPage, pageSize) => async (dispatch, getState) => {
     let friendsOnly = getState().usersPage.friendsOnly;
     if(friendsOnly) dispatch(toggleFriendsFilterCreator(false));
     dispatch(toggleIsFetchingCreator(true));
 
-    usersAPI.getUsers(currentPage, pageSize)
-        .then(data => {
-            dispatch(toggleIsFetchingCreator(false));
-            dispatch(setUsersCreator(data.items));
-            dispatch(setTotalUsersCreator(data.totalCount));
-        });
+    let data = await usersAPI.getUsers(currentPage, pageSize);
+    dispatch(toggleIsFetchingCreator(false));
+    dispatch(setUsersCreator(data.items));
+    dispatch(setTotalUsersCreator(data.totalCount));
+
 };
 
-export const getFriendsThunkCreator = (currentPage, pageSize, friendship) => (dispatch, getState) => {
+export const getFriendsThunkCreator = (currentPage, pageSize, friendship) => async (dispatch, getState) => {
     let friendsOnly = getState().usersPage.friendsOnly;
     if(!friendsOnly) dispatch(toggleFriendsFilterCreator(true));
     dispatch(toggleIsFetchingCreator(true));
 
-    usersAPI.getFriends(currentPage, pageSize, friendship)
-        .then(data => {
-            dispatch(toggleIsFetchingCreator(false));
-            dispatch(setFriendsCreator(data.items));
-            dispatch(setTotalUsersCreator(data.totalCount));
-        });
+    let data = await usersAPI.getFriends(currentPage, pageSize, friendship);
+    dispatch(toggleIsFetchingCreator(false));
+    dispatch(setFriendsCreator(data.items));
+    dispatch(setTotalUsersCreator(data.totalCount));
 };
 
-export const changeUsersPageThunkCreator = (currentPage, pageSize) => (dispatch, getState) => {
+export const changeUsersPageThunkCreator = (currentPage, pageSize) => async (dispatch, getState) => {
     dispatch(setCurrentPageCreator(currentPage));
     dispatch(toggleIsFetchingCreator(true));
     let friendsOnly = getState().usersPage.friendsOnly;
-    if(!friendsOnly) usersAPI.getUsers(currentPage, pageSize)
-        .then(data => {
-            dispatch(toggleIsFetchingCreator(false));
-            dispatch(setUsersCreator(data.items));
-        });
-    else usersAPI.getFriends(currentPage, pageSize, true)
-        .then(data => {
-            dispatch(toggleIsFetchingCreator(false));
-            dispatch(setFriendsCreator(data.items));
-        });
+    if(!friendsOnly) {
+        let data = await usersAPI.getUsers(currentPage, pageSize);
+        dispatch(toggleIsFetchingCreator(false));
+        dispatch(setUsersCreator(data.items));
+    }
+    else {
+        let data = await usersAPI.getFriends(currentPage, pageSize, true);
+        dispatch(toggleIsFetchingCreator(false));
+        dispatch(setFriendsCreator(data.items));
+    }
 };
 
-export const followUserThunkCreator = (userId) => (dispatch) => {
-    dispatch(toggleFollowingInProgressCreator(userId, true));
-    usersAPI.followUser(userId).then(data => {
-        if (data.resultCode === 0) {
-            dispatch(followUserCreator(userId));
-            dispatch(toggleFollowingInProgressCreator(0, false));
-        }
-    });
-
+export const followUserThunkCreator = (userId) => async (dispatch) => {
+    let apiMethod = usersAPI.followUser.bind(userId);
+    await followUserStatusSelector(dispatch, userId, followUserCreator, toggleFollowingInProgressCreator, apiMethod);
 }
 
-export const unfollowUserThunkCreator = (userId) => (dispatch) => {
-    dispatch(toggleFollowingInProgressCreator(userId, true));
-    usersAPI.unfollowUser(userId).then(data => {
-        if (data.resultCode === 0) {
-            dispatch(unfollowUserCreator(userId));
-            dispatch(toggleFollowingInProgressCreator(0, false));
-        }
-    });
-
+export const unfollowUserThunkCreator = (userId) => async (dispatch) => {
+    let apiMethod = usersAPI.unfollowUser.bind(userId);
+    await followUserStatusSelector(dispatch, userId, unfollowUserCreator, toggleFollowingInProgressCreator, apiMethod);
 }
 
 export default userReducer;

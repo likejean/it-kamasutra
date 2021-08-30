@@ -19,7 +19,7 @@ const maxPasswordLength = maxPasswordLengthCreator(30);
 const minUsernameLength = minUsernameLengthCreator(2);
 const maxUsernameLength = maxUsernameLengthCreator(30);
 
-const LoginForm = (props) => {
+const LoginForm = ({handleSubmit, error}) => {
     //Контейнерная компонента, которая оборачивает форму. совершает следующие действия скрыто (под капотом):
     // e.preventDefault(),
     // get all from data and put them to object,
@@ -27,7 +27,7 @@ const LoginForm = (props) => {
 
     return (
         <Row justify="center">
-            <form onSubmit={props.handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <Space direction='vertical'>
                     <div className={classes.formItem}>
                         <Field id="email" validate={[requiredField, maxUsernameLength, minUsernameLength, email]} name={"email"} component={LoginEmailFormInput} />
@@ -38,8 +38,8 @@ const LoginForm = (props) => {
                     <div className={classes.formItem}>
                         <Field id="checkbox" name={"rememberMe"} component={LoginUserCheckboxFormInput} />
                     </div>
-                    {props.error && <div className={classes.formSummaryError}>
-                        {props.error}
+                    {error && <div className={classes.formSummaryError}>
+                        {error}
                     </div>}
                     <div className={classes.formItem}>
                         <Button type="primary" htmlType="submit">

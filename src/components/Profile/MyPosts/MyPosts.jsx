@@ -11,6 +11,7 @@ import MyPostsForm from "./MyPostsForm";
 // Receives data via props from Container Component.
 ////////////////////////////////////////////////////
 
+
 const AddPostReduxForm = reduxForm({form: 'post'})(MyPostsForm);
 
 const MyPosts = (props) => {

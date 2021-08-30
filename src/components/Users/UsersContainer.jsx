@@ -6,7 +6,7 @@ import {
     unfollowUserThunkCreator
 } from "../../redux/usersReducers";
 import React from "react";
-import Users from "./Users";
+import UsersPage from "./UsersPage";
 import Loader from "../utils/loaders/Loader";
 import {compose} from "redux";
 import WithAuthRedirect from "../../hoc/WithAuthRedirect";
@@ -35,22 +35,21 @@ class UsersContainer extends React.Component {
     }
 
     render() {
-        console.log('render')
         if(this.props.isFetching) {
             return <Loader comment="Please, wait. Loading users..." size="large" />
         }else{
             return (
-                <Users users={this.props.users}
-                       followUser={this.props.followUser}
-                       getFriends={this.getFriendsOnly.bind(this)}
-                       isAuth={this.props.isAuth}
-                       friendsOnly={this.props.friendsOnly}
-                       unfollowUser={this.props.unfollowUser}
-                       totalUsersCount={this.props.totalUsersCount}
-                       currentPage={this.props.currentPage}
-                       pageSize={this.props.pageSize}
-                       onPaginationChangeHandler={this.onPaginationChangeHandler}
-                       followingInProgress={this.props.followingInProgress}
+                <UsersPage users={this.props.users}
+                           followUser={this.props.followUser}
+                           getFriends={this.getFriendsOnly.bind(this)}
+                           isAuth={this.props.isAuth}
+                           friendsOnly={this.props.friendsOnly}
+                           unfollowUser={this.props.unfollowUser}
+                           totalUsersCount={this.props.totalUsersCount}
+                           currentPage={this.props.currentPage}
+                           pageSize={this.props.pageSize}
+                           onPaginationChangeHandler={this.onPaginationChangeHandler}
+                           followingInProgress={this.props.followingInProgress}
                 />
             )
         }

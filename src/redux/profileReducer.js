@@ -1,6 +1,7 @@
 import {profileAPI} from "../api/api";
 
 const ADD_POST = "ADD_POST";
+const DELETE_POST = "DELETE_POST";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_STATUS = "SET_STATUS";
 const TOGGLE_IS_FETCHING_STATUS = "TOGGLE_IS_FETCHING_STATUS";
@@ -16,7 +17,6 @@ const initialState = {
     status: ''
 };
 
-
 const profileReducer = (state = initialState, action) => {
 
     switch(action.type) {
@@ -26,7 +26,10 @@ const profileReducer = (state = initialState, action) => {
                 message: action.newPostText,
                 likes: 1
             };
-            return {...state, newPostText: '', posts: state.posts.concat(newPost)};
+            return {...state, posts: state.posts.concat(newPost)};
+
+        case DELETE_POST:
+            return {...state, posts: state.posts.filter(item => item.id !== action.postId)};
 
         case TOGGLE_IS_FETCHING_STATUS:
             return {...state, isStatusFetching: action.isStatusFetching}
@@ -44,33 +47,34 @@ const profileReducer = (state = initialState, action) => {
 
 //Actions
 export const addPostCreator = (newPostText) => ({type: ADD_POST, newPostText});
+export const deletePostCreator = (postId) => ({type: DELETE_POST, postId});
 export const setUserProfileCreator = (profile) => ({type: SET_USER_PROFILE, profile});
 export const setStatusCreator = (status) => ({type: SET_STATUS, status});
 export const loadingUserStatusCreator = (isStatusFetching) => ({type: TOGGLE_IS_FETCHING_STATUS, isStatusFetching});
 
 //Thunks
-export const setUserProfileThunkCreator = (userId) => (dispatch) => {
-    profileAPI.getUserProfile(userId).then(response => {
-        dispatch(setUserProfileCreator(response.data));
-    });
+export const setUserProfileThunkCreator = (userId) => async (dispatch) => {
+    let promise = await profileAPI.getUserProfile(userId);
+    dispatch(setUserProfileCreator(promise.data));
+
 }
 
-export const getUserStatusThunkCreator = (userId) => (dispatch, getState) => {
+export const getUserStatusThunkCreator = (userId) => async (dispatch, getState) => {
     const state = getState();
     if(!state.profilePage.isStatusFetching) dispatch(loadingUserStatusCreator(true));
-    profileAPI.getStatus(userId).then(response => {
-        dispatch(setStatusCreator(response.data));
-    }).then(() => dispatch(loadingUserStatusCreator(false)));
+    let promise = await profileAPI.getStatus(userId);
+    dispatch(setStatusCreator(promise.data));
+    await dispatch(loadingUserStatusCreator(false));
 }
 
-export const updateUserStatusThunkCreator = (status) => (dispatch, getState) => {
+export const updateUserStatusThunkCreator = (status) => async (dispatch, getState) => {
     const state = getState();
     if(!state.profilePage.isStatusFetching) dispatch(loadingUserStatusCreator(true));
-    profileAPI.updateStatus(status).then(response => {
-        if(response.data.resultCode === 0) {
-            dispatch(setStatusCreator(status));
-        }
-    }).then(() => dispatch(loadingUserStatusCreator(false)));
+    let promise = await profileAPI.updateStatus(status);
+    if(promise.data.resultCode === 0) {
+        dispatch(setStatusCreator(status));
+    }
+    await dispatch(loadingUserStatusCreator(false));
 }
 
 export default profileReducer;

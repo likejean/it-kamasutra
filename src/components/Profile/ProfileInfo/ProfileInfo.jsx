@@ -4,7 +4,7 @@ import Loader from "../../utils/loaders/Loader";
 import Avatar from "antd/es/avatar/avatar";
 import {Card, Col, Divider, List, Row, Space} from "antd";
 import {EditOutlined, EllipsisOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
-import ProfileStatus from "./ProfileStatus";
+import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 const { Meta } = Card;
 
 function ProfileInfo(props) {
@@ -59,7 +59,7 @@ function ProfileInfo(props) {
                                         />
                                     </Col>
                                     <Divider orientation="left"/>
-                                    <ProfileStatus
+                                    <ProfileStatusWithHooks
                                         status={props.status}
                                         updateUserStatus={props.updateUserStatus}
                                         isStatusFetching={props.isStatusFetching}

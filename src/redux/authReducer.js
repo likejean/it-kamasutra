@@ -30,34 +30,35 @@ export const setUserAuthCreator = (id, email, login, isAuth) => ({type: SET_USER
 
 //Thunks
 
-export const userLoginThunkCreator = () => (dispatch) => {
-    return authAPI.me().then(response => {
-        if (response.data.resultCode === 0) {
-            let {id, login, email} = response.data.data;
-            dispatch(setUserAuthCreator(id, email, login, true));
-        }
-    }).catch(err => console.log(err));
+export const userLoginThunkCreator = () => async (dispatch) => {
+    let promise = await authAPI.me();
+    if (promise.data.resultCode === 0) {
+        let {id, login, email} = promise.data.data;
+        dispatch(setUserAuthCreator(id, email, login, true));
+    }
 }
 
-export const login = (email, password, rememberMe) => (dispatch) => {
+export const login = (email, password, rememberMe) => async (dispatch) => {
 
-
-    authAPI.login(email, password, rememberMe).then(response => {
-        if (response.data.resultCode === 0) {
+    try {
+        let promise = await authAPI.login(email, password, rememberMe)
+        if (promise.data.resultCode === 0) {
             dispatch(userLoginThunkCreator())
         }else{
-            let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Something went wrong...';
+            let message = promise.data.messages.length > 0 ? promise.data.messages[0] : 'Something went wrong...';
             dispatch(stopSubmit("login", {_error: message}));
-        }
-    }).catch(err => console.log(err));
+        };
+    }
+    catch(error){
+        console.log('Error!');
+    }
 }
 
-export const logout = () => (dispatch) => {
-    authAPI.logout().then(response => {
-        if (response.data.resultCode === 0) {
-            dispatch(setUserAuthCreator(null, null, null, false))
-        }
-    }).catch(err => console.log(err));
+export const logout = () => async (dispatch) => {
+    let promise = await authAPI.logout();
+    if (promise.data.resultCode === 0) {
+        dispatch(setUserAuthCreator(null, null, null, false))
+    }
 }
 
 export default authReducer;
