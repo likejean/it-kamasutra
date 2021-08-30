@@ -38,7 +38,7 @@ const UsersPage = ({isAuth, users, getFriends, friendsOnly, followUser, unfollow
             <UsersList
                 isAuth={isAuth}
                 users={users}
-                ollowUser={followUser}
+                followUser={followUser}
                 unfollowUser={unfollowUser}
                 followingInProgress={followingInProgress}
             />
