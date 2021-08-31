@@ -1,8 +1,7 @@
 import React from 'react';
 import classes from './Header.module.css';
 import {NavLink} from "react-router-dom";
-import {Button, Row, Space} from "antd";
-import Avatar from "antd/es/avatar/avatar";
+import {Button, Row, Space, Avatar} from "antd";
 import {UserOutlined} from "@ant-design/icons";
 
 const Header = (props) => {

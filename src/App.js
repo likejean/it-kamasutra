@@ -10,10 +10,11 @@ import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginContainer from "./components/Login/LoginContainer";
 import {Component} from "react";
-import {connect} from "react-redux";
+import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {initAppThunkCreator} from "./redux/initReducer";
 import Loader from "./components/utils/loaders/Loader";
+import store from "./redux/redux-store";
 
 class App extends Component {
 
@@ -22,10 +23,9 @@ class App extends Component {
     }
 
     render() {
-        if(!this.props.authReady) {
-            return <Loader size="large" comment="App is loading... Please, wait" />
-        }
-        else {
+        if (!this.props.authReady) {
+            return <Loader size="large" comment="App is loading... Please, wait"/>
+        } else {
             return (
                 <BrowserRouter>
                     <div className='app-wrapper'>
@@ -50,8 +50,20 @@ const mapStateToProps = (state) => ({
     authReady: state.app.initialized
 });
 
-export default compose(withRouter,
+const AppContainer = compose(withRouter,
     connect(
         mapStateToProps,
         {initApp: initAppThunkCreator}
     ))(App);
+
+const Main = () => {
+    return (
+        <BrowserRouter>
+            <Provider store={store}>
+                <AppContainer />
+            </Provider>
+        </BrowserRouter>
+    )
+}
+
+export default Main;

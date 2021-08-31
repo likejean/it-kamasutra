@@ -1,10 +1,10 @@
 import React from 'react';
 import classes from "./ProfileInfo.module.css";
 import Loader from "../../utils/loaders/Loader";
-import Avatar from "antd/es/avatar/avatar";
-import {Card, Col, Divider, List, Row, Space} from "antd";
+import {Card, Col, Divider, List, Row, Space, Avatar} from "antd";
 import {EditOutlined, EllipsisOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
+import ProfileStatus from "./ProfileStatus";
 const { Meta } = Card;
 
 function ProfileInfo(props) {
@@ -59,7 +59,7 @@ function ProfileInfo(props) {
                                         />
                                     </Col>
                                     <Divider orientation="left"/>
-                                    <ProfileStatusWithHooks
+                                    <ProfileStatus
                                         status={props.status}
                                         updateUserStatus={props.updateUserStatus}
                                         isStatusFetching={props.isStatusFetching}

@@ -1,11 +1,10 @@
 import React from 'react';
 import classes from './Navbar.module.css';
 import {NavLink, withRouter} from "react-router-dom";
-import {Menu} from "antd";
+import {Menu, Avatar} from "antd";
 import {
     UserOutlined
 } from "@ant-design/icons";
-import Avatar from "antd/es/avatar/avatar";
 import links from "./NavLinkList";
 
 const Navbar = (props) => {

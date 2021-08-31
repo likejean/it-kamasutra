@@ -1,7 +1,6 @@
 import React from 'react';
-import {Badge} from "antd";
+import {Badge, Avatar} from "antd";
 import {NavLink} from "react-router-dom";
-import Avatar from "antd/es/avatar/avatar";
 import {UserOutlined} from "@ant-design/icons";
 
 const UserAvatar = ({isAuth, photo, idx, userId}) => {

@@ -1,8 +1,7 @@
 import React from 'react';
 import classes from "./Post.module.css";
 import {UserOutlined} from "@ant-design/icons";
-import Avatar from "antd/es/avatar/avatar";
-import {Badge, Space} from "antd";
+import {Badge, Space, Avatar} from "antd";
 
 function Post({message, likes}) {
     return (
