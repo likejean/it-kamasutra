@@ -10,6 +10,11 @@ function ProfileInfo(props) {
     if (!props.profile) {
         return <Loader comment="Please, wait. Loading user profile..." size="large"/>
     } else {
+        const onMainPhotoSelected = (e) => {
+            if(e.target.files.length) {
+                props.savePhoto(e.target.files[0])
+            }
+        }
         return (
             <div>
                 <div className={classes.descriptionBlock}>
@@ -18,8 +23,8 @@ function ProfileInfo(props) {
                             cover={
                                 <img alt="profile" width="950"
                                      src="https://bingvsdevportalprodgbl.blob.core.windows.net/demo-images/9b3b22ca-d065-40a9-b5d8-2296beb8c717.jpeg"/>}
-                            style={{width: 950, padding: 15}}
-                            actions={[
+                                style={{width: 950, padding: 15}}
+                                actions={[
                                 <SettingOutlined key="setting" />,
                                 <EditOutlined key="edit" />,
                                 <EllipsisOutlined key="ellipsis" />,
@@ -27,7 +32,7 @@ function ProfileInfo(props) {
                         >
                             <Space justify="center">
                                 <Row>
-                                    <Col flex="350px">
+                                    <Col flex="750px">
                                         <Meta
                                             avatar={
                                                 props.profile.photos.small === null
@@ -45,6 +50,10 @@ function ProfileInfo(props) {
                                             title={props.profile.fullName}
                                             description={props.profile.lookingForAJobDescription}
                                         />
+                                    </Col>
+                                    <Divider orientation="left"/>
+                                    <Col>
+                                        <Space direction='vertical'>{props.isOwner && <input type='file' onChange={onMainPhotoSelected}/>}</Space>
                                     </Col>
                                     <Divider orientation="left"/>
                                     <Col flex="auto">

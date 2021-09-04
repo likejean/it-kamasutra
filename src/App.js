@@ -4,7 +4,7 @@ import 'antd/dist/antd.css';
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
-import {BrowserRouter, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter, Route, withRouter} from "react-router-dom";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginContainer from "./components/Login/LoginContainer";
 import {connect, Provider} from "react-redux";
@@ -29,7 +29,7 @@ class App extends Component {
             return <Loader size="large" comment="App is loading... Please, wait"/>
         } else {
             return (
-                <BrowserRouter>
+                <HashRouter>
                     <div className='app-wrapper'>
                         <HeaderContainer/>
                         <Navbar/>
@@ -42,7 +42,7 @@ class App extends Component {
                             <Route path="/login" component={() => <LoginContainer/>}/>
                         </div>
                     </div>
-                </BrowserRouter>
+                </HashRouter>
             )
         }
     }
