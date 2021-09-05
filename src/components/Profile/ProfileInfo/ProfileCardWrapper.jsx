@@ -1,8 +1,10 @@
 import React from 'react';
-import {EditOutlined, EllipsisOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
-import {Avatar, Button, Card, Col, Divider, List, Row, Space} from "antd";
+import {EditOutlined, EllipsisOutlined, SettingOutlined} from "@ant-design/icons";
+import {Card, Divider, Row, Space} from "antd";
 import ProfileStatus from "./ProfileStatus";
-const { Meta } = Card;
+import ContactListComponent from "./ProfileCardComponents/ContactListComponent";
+import ProfileAvatarComponent from "./ProfileCardComponents/ProfileAvatarComponent";
+import AvatarPhotoSelectionComponent from "./ProfileCardComponents/AvatarPhotoSelectionComponent";
 
 const ProfileCardWrapper = ({
         onMainPhotoSelected,
@@ -31,46 +33,13 @@ const ProfileCardWrapper = ({
         >
             <Space justify="center">
                 <Row>
-                    <Col flex="750px">
-                        <Meta
-                            avatar={
-                                smallPhoto === null
-                                    ?
-                                    <Avatar
-                                        size={145} style={{backgroundColor: '#87d068'}}
-                                        icon={<UserOutlined/>}
-                                    />
-                                    :
-                                    <Avatar
-                                        size={145}
-                                        src={smallPhoto}
-                                    />
-                            }
-                            title={fullName}
-                            description={lookingForAJobDescription}
-                        />
-                    </Col>
+                    <ProfileAvatarComponent smallPhoto={smallPhoto} fullName={fullName} lookingForAJobDescription={lookingForAJobDescription}/>
                     <Divider orientation="left"/>
-                    <Col>
-                        <Space direction='vertical'>{isOwner && <Button><input type='file' onChange={onMainPhotoSelected}/></Button>}</Space>
-                    </Col>
+                    <AvatarPhotoSelectionComponent isOwner={isOwner} onMainPhotoSelected={onMainPhotoSelected}/>
                     <Divider orientation="left"/>
-                    <Col flex="auto">
-                        <div style={{marginTop: 25, marginBottom: 25}}><b>About Me:</b><span>{aboutMe}</span></div>
-                        <List
-                            size="small"
-                            header={<div><b>Contacts</b></div>}
-                            bordered
-                            dataSource={Object.values(contacts).filter(contact => contact !== null && contact)}
-                            renderItem={item => <List.Item>{item}</List.Item>}
-                        />
-                    </Col>
+                    <ContactListComponent aboutMe={aboutMe} contacts={contacts}/>
                     <Divider orientation="left"/>
-                    <ProfileStatus
-                        status={status}
-                        updateUserStatus={updateUserStatus}
-                        isStatusFetching={isStatusFetching}
-                    />
+                    <ProfileStatus status={status} updateUserStatus={updateUserStatus} isStatusFetching={isStatusFetching}/>
                 </Row>
             </Space>
         </Card>
